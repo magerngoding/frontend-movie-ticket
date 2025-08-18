@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from 'lucide-react'
 
 import { cn } from "@/lib/utils"
 
@@ -36,22 +37,34 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean,
+  isLoading?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ({ className, variant, size, asChild = false, isLoading = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
-    return (
+    return isLoading ? (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...props}
-      />
+        disabled
+      >
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Please wait
+      </Comp>
+    ) : (
+      <Comp className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}>
+
+      </Comp>
     )
   }
 )
 Button.displayName = "Button"
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { Button, buttonVariants }

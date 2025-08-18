@@ -12,6 +12,9 @@ export const authSchema = z.object({
 
 export const loginSchema = authSchema.omit({ name: true })
 
-type LoginValues = z.infer<typeof loginSchema>
+export type LoginValues = z.infer<typeof loginSchema>;
 
-export const login = async (data: LoginValues): Promise<BaseResponse<LoginResponse>> => globalInstance.post('/auth/login', data).then(res => res.data)
+export const login = async (
+    data: LoginValues
+): Promise<BaseResponse<LoginResponse>> =>
+    globalInstance.post('/auth/login', data).then((res) => res.data);
