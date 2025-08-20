@@ -23,8 +23,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Link } from "react-router-dom"
+import secureLocalStorage from "react-secure-storage"
+import { SESSION_KEY } from "@/lib/utils"
 
 export default function Header() {
+    const logout = () => {
+        secureLocalStorage.removeItem(SESSION_KEY)
+
+        window.location.replace('/admin/login')
+    }
+
     return (
         <>
             <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -114,7 +122,7 @@ export default function Header() {
                         <DropdownMenuItem>Settings</DropdownMenuItem>
                         <DropdownMenuItem>Support</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Logout</DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </header>

@@ -1,9 +1,12 @@
 
 import { redirect, type RouteObject } from "react-router-dom";
-import AdminLoginPage from "../pages/admin/index.tsx";
-import AdminOverview from "@/pages/adminOverview/index.tsx";
+import AdminLoginPage from "../pages/AdminnLoginPage/index.tsx";
+import AdminOverview from "@/pages/AdminOverview/index.tsx";
 import AdminLayout from "@/components/AdminLayout.tsx";
 import { getSession } from "@/lib/utils.ts";
+import AdminGenre from "@/pages/AdminGenre/index.tsx";
+import { getGenres } from "@/services/genre/genre.service.ts";
+import AdminGenreForm from "@/pages/AdminGenre/form.tsx";
 
 const adminRoutes: RouteObject[] = [
     {
@@ -33,7 +36,16 @@ const adminRoutes: RouteObject[] = [
             },
             {
                 path: '/admin/genres',
-                element: 'Admin Genre'
+                loader: async () => {
+                    const genres = await getGenres()
+
+                    return genres.data
+                },
+                element: <AdminGenre />
+            },
+            {
+                path: '/admin/genres/create',
+                element: <AdminGenreForm />
             }
         ]
     }
